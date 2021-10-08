@@ -11,7 +11,7 @@ pipeline {
                 script {
                     app = docker.build("maxm18/pet-clinic")
                     sh '''docker run --name test-app -p 8090:8080 -d maxm18/pet-clinic
-                    #sleep 30
+                    sleep 30
                     test=$(curl -sIL http://localhost:8090/ | grep "HTTP.*\\s200")
                     docker stop test-app && docker rm test-app
                     if [[ -z "$test" ]]; then exit 25; fi
