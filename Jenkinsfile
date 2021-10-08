@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                         sh "docker pull maxm18/pet-clinic:${env.BUILD_NUMBER}"
-                        sh "docker kill maxm18/pet-clinic || exit 0"
+                        sh "docker stop pet-clinic && docker rm pet-clinic || exit 0"
                         sh "docker run  --name pet-clinic -p 8080:8080 -d maxm18/pet-clinic:${env.BUILD_NUMBER}"
                 }
             }
