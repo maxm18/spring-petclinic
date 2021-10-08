@@ -1,11 +1,9 @@
 pipeline {
-  agent {label 'slave'}
+  agent { label 'slave' }
     stages {
         stage('Build') {
             steps {
-                echo 'Running build automation'
-                sh './mvnw package'
-                archiveArtifacts 'target/*.jar'
+                sh './mvnw package
             }
         }
         stage('Build Docker Image') {
@@ -27,6 +25,14 @@ pipeline {
                     }
                 }
             }
+        }
+        stage ('DeployImage') {
+            steps {
+                script {
+                        sh 'docker pull maxm18/pet-clinic:${env.BUILD_NUMBER}'
+                        sh 'docker kill maxm18/pet-clinic'
+                        sh 'docker run  --name pet-clinic -p 8080:8080 -d maxm18/pet-clinic:${env.BUILD_NUMBER}'
+                }
         }
     }   
 }
