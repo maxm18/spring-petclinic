@@ -33,6 +33,7 @@ pipeline {
                         sh 'docker kill maxm18/pet-clinic'
                         sh 'docker run  --name pet-clinic -p 8080:8080 -d maxm18/pet-clinic:${env.BUILD_NUMBER}'
                 }
+            }
         }
     }   
 }
