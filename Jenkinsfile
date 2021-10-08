@@ -10,9 +10,10 @@ pipeline {
             steps {
                 script {
                     app = docker.build("maxm18/pet-clinic")
-                    app.inside {
-                        sh 'echo $(curl localhost:8080)'
-                    }
+                    sh '''docker run --name test-app -p 8090:8080 -d maxm18/pet-clinic
+                    curl -IL localhost:8090
+                    docker stop test-app && docker rm test-app || exit 0
+                    '''
                 }
             }
         }
